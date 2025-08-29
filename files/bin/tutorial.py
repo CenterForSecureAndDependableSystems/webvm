@@ -136,7 +136,7 @@ class LinuxTutorial:
 
     def setup_student_session(self):
         """Set up student identification and session"""
-        print("🆔 STUDENT IDENTIFICATION")
+        print("🆔   STUDENT IDENTIFICATION")
         print("=" * 40)
         print("Please enter your student information:")
         
@@ -149,7 +149,7 @@ class LinuxTutorial:
             print("Please enter a valid student ID.")
         
         # Get assignment key
-        print("\n🔑 ASSIGNMENT IDENTIFICATION")
+        print("\n🔑  ASSIGNMENT IDENTIFICATION")
         while True:
             assignment_key = input("Assignment key (provided by instructor): ").strip()
             if assignment_key:
@@ -165,7 +165,7 @@ class LinuxTutorial:
         # Show session info
         group_number = self.get_student_group(student_id)
         
-        print(f"\n✅ Session started for: {student_id}")
+        print(f"\n✅  Session started for: {student_id}")
         if student_name:
             print(f"   Name: {student_name}")
         print(f"   Assignment: {assignment_key}")
@@ -195,13 +195,13 @@ class LinuxTutorial:
         
         # Display the code prominently
         print("\n" + "🎯" * 20)
-        print("📊 PROGRESS CHECKPOINT REACHED!")
+        print("📊  PROGRESS CHECKPOINT REACHED!")
         print("🎯" * 20)
         print(f"Exercises completed: {self.exercise_counter}")
         print(f"Current lesson: {self.current_lesson + 1}/{len(self.lessons)}")
         print(f"Assignment: {self.user_progress['assignment_key']}")
         print()
-        print("📝 ENTER THIS CODE IN CANVAS:")
+        print("📝  ENTER THIS CODE IN CANVAS:")
         print("=" * 40)
         print(f"         {code}")
         print("=" * 40)
@@ -232,7 +232,7 @@ class LinuxTutorial:
     def display_welcome(self):
         """Display welcome message and tutorial overview"""
         print("=" * 60)
-        print("🐧 WELCOME TO LINUX COMMAND TUTORIAL 🐧")
+        print("🐧  WELCOME TO LINUX COMMAND TUTORIAL  🐧")
         print("=" * 60)
         print()
         print("This interactive tutorial will teach you essential Linux commands.")
@@ -247,7 +247,7 @@ class LinuxTutorial:
     
     def run_lesson(self, lesson: Dict[str, Any]) -> bool:
         """Run a single lesson"""
-        print(f"📚 LESSON: {lesson['title']}")
+        print(f"📚  LESSON: {lesson['title']}")
         print("=" * 50)
         print(f"Description: {lesson['description']}")
         print(f"Commands you'll learn: {', '.join(lesson['commands'])}")
@@ -262,7 +262,7 @@ class LinuxTutorial:
             if not self.run_exercise(exercise):
                 return False
         
-        print(f"\n✅ Lesson '{lesson['title']}' completed!")
+        print(f"\n✅  Lesson '{lesson['title']}' completed!")
         print("=" * 50)
         return True
     
@@ -290,14 +290,14 @@ class LinuxTutorial:
             "chown": "chown - Change file ownership"
         }
         
-        print("📖 Command Reference:")
+        print("📖  Command Reference:")
         for cmd in commands:
             if cmd in explanations:
                 print(f"  • {explanations[cmd]}")
         
         # Add special explanation for ls commands
         if any(cmd.startswith('ls') for cmd in commands):
-            print("\n📋 Understanding ls -l output:")
+            print("\n📋  Understanding ls -l output:")
             print("  Example: -rw-r--r-- 1 user group 1024 Jan 15 10:30 filename.txt")
             print("           │││││││││ │ │    │     │    │        │")
             print("           │││││││││ │ │    │     │    │        └── filename")
@@ -314,7 +314,7 @@ class LinuxTutorial:
             print("            └──────── file type (- = file, d = directory, l = link)")
             print()
             
-            print("🔍 Common ls options:")
+            print("🔍  Common ls options:")
             print("  • ls -l    : Long format (detailed info)")
             print("  • ls -a    : Show hidden files (.filename)")
             print("  • ls -h    : Human readable sizes (KB, MB, GB)")
@@ -330,13 +330,13 @@ class LinuxTutorial:
         try:
             with open(filename, 'r') as file:
                 students = [line.strip() for line in file if line.strip()]
-            print(f"✅ Read {len(students)} students from {filename}")
+            print(f"✅  Read {len(students)} students from {filename}")
             return students
         except FileNotFoundError:
-            print(f"❌ Error: File '{filename}' not found!")
+            print(f"❌  Error: File '{filename}' not found!")
             return []
         except Exception as e:
-            print(f"❌ Error reading file: {e}")
+            print(f"❌  Error reading file: {e}")
             return []
 
     def generate_student_groups_from_file(self, student_file: str, output_file: str = "student_groups.csv") -> None:
@@ -384,22 +384,22 @@ class LinuxTutorial:
                         row.extend(['', ''])  # Empty cells if no more students in this group
                 writer.writerow(row)
         
-        print(f"📁 Student groups CSV generated: {output_file}")
+        print(f"📁  Student groups CSV generated: {output_file}")
         print(f"🔧 Used {self.num_groups} groups")
         
         # Print summary
-        print("\n📊 GROUP DISTRIBUTION:")
+        print("\n📊  GROUP DISTRIBUTION:")
         print("-" * 40)
         for group_name in sorted(groups.keys()):
             count = len(groups[group_name])
             print(f"{group_name}: {count} students")
         print(f"Total: {len(students)} students")
-        print("\n✅ Students loaded into memory for answer key generation")
+        print("\n✅  Students loaded into memory for answer key generation")
 
     def generate_answer_keys_for_loaded_students(self, assignment_key: str, max_exercises: int = 20) -> None:
         """Generate answer keys for previously loaded students"""
         if not self.loaded_students:
-            print("❌ No students loaded! Use 'load_students' command first.")
+            print("❌  No students loaded! Use 'load_students' command first.")
             return
         
         import csv
@@ -434,13 +434,13 @@ class LinuxTutorial:
                         row.append(code)
                     writer.writerow(row)
         
-        print(f"📁 Group answer key generated: {group_filename}")
+        print(f"📁  Group answer key generated: {group_filename}")
         
         # Generate individual student answer keys
         output_dir = f"individual_keys_{assignment_key}"
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
-            print(f"📁 Created directory: {output_dir}")
+            print(f"📁  Created directory: {output_dir}")
         
         total_students = 0
         for group_name, students in self.loaded_students.items():
@@ -475,7 +475,7 @@ class LinuxTutorial:
                         code_type = "FINAL COMPLETION" if checkpoint == max_exercises else "CHECKPOINT"
                         writer.writerow([checkpoint, code, code_type])
         
-        print(f"✅ Generated {total_students} individual answer key files in '{output_dir}' directory")
+        print(f"✅  Generated {total_students} individual answer key files in '{output_dir}' directory")
         print(f"🔑 Assignment key used: '{assignment_key}'")
 
     def generate_progress_code_for_group(self, group_number: int, exercise_count: int, assignment_key: str) -> str:
@@ -498,7 +498,7 @@ class LinuxTutorial:
     def show_loaded_students(self):
         """Display currently loaded students"""
         if not self.loaded_students:
-            print("❌ No students currently loaded.")
+            print("❌  No students currently loaded.")
             return
         
         print("\n👥 LOADED STUDENTS:")
@@ -550,16 +550,16 @@ class LinuxTutorial:
                 num_groups = int(parts[1])
                 if 2 <= num_groups <= 26:
                     self.num_groups = num_groups
-                    print(f"✅ Set to {num_groups} groups")
+                    print(f"✅  Set to {num_groups} groups")
                     # Clear loaded students since group structure changed
                     if self.loaded_students:
                         print("⚠️  Cleared previously loaded students due to group structure change")
                         self.loaded_students = {}
                         self.student_groups = {}
                 else:
-                    print("❌ Number of groups must be between 2 and 26")
+                    print("❌  Number of groups must be between 2 and 26")
             except ValueError:
-                print("❌ Please enter a valid number")
+                print("❌  Please enter a valid number")
             return True
         
         elif parts[0] == 'admin_help':
@@ -656,7 +656,7 @@ class LinuxTutorial:
 
     def show_current_progress(self):
         """Display current progress to student"""
-        print("\n📈 YOUR PROGRESS")
+        print("\n📈  YOUR PROGRESS")
         print("=" * 30)
         print(f"Student ID: {self.user_progress.get('student_id', 'Not set')}")
         print(f"Assignment: {self.user_progress.get('assignment_key', 'Not set')}")
@@ -690,26 +690,26 @@ class LinuxTutorial:
         self.user_progress['completion_codes'].append(final_code_entry)
         
         print("\n" + "=" * 60)
-        print("🎉 CONGRATULATIONS! 🎉")
+        print("🎉  CONGRATULATIONS! 🎉")
         print("=" * 60)
         print("You have completed the Linux Command Tutorial!")
         print()
-        print("📊 FINAL PROGRESS SUMMARY:")
+        print("📊  FINAL PROGRESS SUMMARY:")
         print(f"  • Student ID: {self.user_progress['student_id']}")
         print(f"  • Assignment: {self.user_progress['assignment_key']}")
         print(f"  • Group: {self.get_student_group(self.user_progress['student_id'])}")
         print(f"  • Total exercises completed: {self.exercise_counter}")
         print(f"  • All {len(self.lessons)} lessons finished")
         print()
-        print("🏆 FINAL COMPLETION CODE:")
+        print("🏆  FINAL COMPLETION CODE:")
         print("=" * 40)
         print(f"         {final_code}")
         print("=" * 40)
-        print("⚠️  Enter this FINAL code in your LMS to mark completion!")
+        print("⚠️   Enter this FINAL code in your LMS to mark completion!")
         print()
         
         # Show all progress codes
-        print("📝 All your progress codes:")
+        print("📝  All your progress codes:")
         for i, code_entry in enumerate(self.user_progress['completion_codes'], 1):
             code_type = "CHECKPOINT" if code_entry.get('type') != 'FINAL_COMPLETION' else "FINAL"
             print(f"  {i}. {code_entry['code']} - {code_type} ({code_entry['exercise_count']} exercises)")
@@ -744,7 +744,7 @@ class LinuxTutorial:
                 print(f"Hint: Try typing '{exercise['command']}'")
                 continue
             elif user_input.lower() == 'skip':
-                print("⏭️  Skipping exercise...")
+                print("⏭️   Skipping exercise...")
                 return True
             elif user_input.lower() == 'progress':
                 self.show_current_progress()
@@ -758,7 +758,7 @@ class LinuxTutorial:
         # Execute the command and verify (MOVE THIS INSIDE THE WHILE LOOP)
 
             if self.execute_and_verify(user_input, exercise):
-                print("\n----------------------------\n✅ Correct! Well done.")
+                print("\n----------------------------\n✅  Correct! Well done.")
                 
                 # Track exercise completion
                 self.exercise_counter += 1
@@ -780,9 +780,9 @@ class LinuxTutorial:
                 
                 return True
             else:
-                print("❌ That's not quite right. Try again or type 'hint' for help.")
-                print("💡 Type 'progress' to see your current progress.")
-                print("💡 Type 'admin_help' for administrative commands.")
+                print("❌  That's not quite right. Try again or type 'hint' for help.")
+                print("💡  Type 'progress' to see your current progress.")
+                print("💡  Type 'admin_help' for administrative commands.")
 
 def main():
     """Main entry point"""
