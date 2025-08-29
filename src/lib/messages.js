@@ -11,7 +11,7 @@ export const introMessage = [
 	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
-	"   Welcome to University of Idaho's LINUX Tutorial, using WebVM."
+    "   Welcome to University of Idaho's LINUX Tutorial, using WebVM.",
 	"",
         "   To run our introductory tutorial, type tutorial ",
         "      -- Note: It may take a little time to load and start ",
