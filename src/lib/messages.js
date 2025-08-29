@@ -9,24 +9,13 @@ export const introMessage = [
 	"| WebVM is powered by the CheerpX virtualization engine, which enables safe,  |",
 	"| sandboxed client-side execution of x86 binaries, fully client-side          |",
 	"|                                                                             |",
-	"| CheerpX includes an x86-to-WebAssembly JIT compiler, a virtual block-based  |",
-	"| file system, and a Linux syscall emulator                                   |",
-	"|                                                                             |",
-	"| Try out the new Alpine / Xorg / i3 WebVM: " + underline + "https://webvm.io/alpine.html" + normal + "      |",
-	"|                                                                             |",
-	"| [News] Integrating Claude Computer Use in WebVM!                            |",
-	"|                                                                             |",
-	"| " + underline + "https://labs.leaningtech.com/blog/webvm-claude" + normal + "                              |",
-	"|                                                                             |",
 	"+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+",
 	"",
-	"   Welcome to WebVM. If unsure, try these examples:",
+	"   Welcome to University of Idaho's LINUX Tutorial, using WebVM."
 	"",
-	"     python3 examples/python3/fibonacci.py ",
-	"     gcc -o helloworld examples/c/helloworld.c && ./helloworld",
-	"     objdump -d ./helloworld | less -M",
-	"     vim examples/c/helloworld.c",
-	"     curl --max-time 15 parrot.live  # requires networking",
+        "   To run our introductory tutorial, type tutorial ",
+        "      -- Note: It may take a little time to load and start ",
+        "      --  If you ahve any prolberms you can enter CTRL-C to stop the tutorial",
 	""
 ];
 export const errorMessage = [
