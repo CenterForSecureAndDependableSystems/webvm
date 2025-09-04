@@ -15,7 +15,7 @@ export const introMessage = [
 	"",
         "   To run our introductory tutorial, type tutorial ",
         "      -- Note: It may take a little time to load and start ",
-        "      --  If you ahve any prolberms you can enter CTRL-C to stop the tutorial",
+        "      --  If you have any problems you can enter CTRL-C to stop the tutorial",
 	""
 ];
 export const errorMessage = [
