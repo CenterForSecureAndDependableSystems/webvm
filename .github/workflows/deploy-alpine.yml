@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest # Image to run the worker on.
 
     env:
-      TAG: "ext2-webvm-base-image" # Tag of docker image.
+      TAG: "ext2-webvm-gui-base-image" # Tag of docker image.
       IMAGE_SIZE: '${{ github.event.inputs.IMAGE_SIZE }}'
       DEPLOY_DIR: /webvm_deploy/ # Path to directory where we host the final image from.
 
@@ -103,6 +103,14 @@ jobs:
       # Checks-out our repository under $GITHUB_WORKSPACE, so our job can access it
       - uses: actions/checkout@v4
 
+      # Set up QEMU for cross-platform builds
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # Setting the IMAGE_NAME variable in GITHUB_ENV to <Dockerfile name>_<date>_<run_id>.ext2.
       - name: Generate the image_name.
         id: image_name_gen
@@ -112,8 +120,9 @@ jobs:
       # Create directory to host the image from.
       - run: sudo mkdir -p $DEPLOY_DIR
 
-      # Build the i386 Dockerfile image.
-      - run: docker buildx build . --tag $TAG --file ${{ github.event.inputs.DOCKERFILE_PATH }} --platform=linux/386
+      # Build the i386 Dockerfile image using buildx for cross-platform support.
+      - name: Build the i386 Dockerfile image
+        run: docker buildx build --platform linux/386 -t $TAG -f ${{ github.event.inputs.DOCKERFILE_PATH }} .
       
       # Run the docker image so that we can export the container.
       # Run the Docker container with the Google Public DNS nameservers: 8.8.8.8, 8.8.4.4
@@ -176,13 +185,11 @@ jobs:
       #   3. Replace args with the Dockerfile CMD / Entrypoint args.
       #   4. Replace ENV with the container's environment values.
       #   5. Replace CWD with the container's current working directory.
-      - name: Adjust config_github_terminal.js
-        run: |
-          sed -i 's#IMAGE_URL#"${{ env.IMAGE_NAME }}"#g' config_github_terminal.js
-          sed -i 's#CMD#${{ env.CMD }}#g' config_github_terminal.js
-          sed -i 's#ARGS#${{ env.ARGS }}#g' config_github_terminal.js
-          sed -i 's#ENV#${{ env.ENV }}#g' config_github_terminal.js
-          sed -i 's#CWD#${{ env.CWD }}#g' config_github_terminal.js
+        - name: Adjust config_public_alpine.js for custom disk image
+          run: |
+            sed -i 's#export const diskImageUrl = ".*";#export const diskImageUrl = "${{ env.IMAGE_NAME }}";#g' config_public_alpine.js
+            sed -i 's#export const cmd = ".*";#export const cmd = "${{ env.CMD }}";#g' config_public_alpine.js
+            sed -i "s#export const args = .*;#export const args = ${{ env.ARGS }};#g" config_public_alpine.js
 
       - name: Build NPM package
         run: |
@@ -204,6 +211,7 @@ jobs:
             index_list="$dir/index.list";
             sudo rm -f "$index_list";
             sudo ls "$dir" | sudo tee "$index_list" > /dev/null;
+            
             sudo chmod +rw "$index_list";     
             sudo echo "created $index_list"; 
           done
