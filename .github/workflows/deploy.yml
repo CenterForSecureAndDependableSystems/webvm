@@ -170,6 +170,11 @@ jobs:
           sudo split ${{ env.IMAGE_NAME }} ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.c -a 6 -b 128k -x --additional-suffix=.txt
           sudo bash -c "stat -c%s ${{ env.IMAGE_NAME }} > ${{ env.DEPLOY_DIR }}/${{ env.IMAGE_NAME }}.meta"
 
+      # Update config_public_alpine.js to use the built image
+      - name: Update config_public_alpine.js with built image
+        run: |
+          sed -i 's#export const diskImageUrl = ".*";#export const diskImageUrl = "${{ env.IMAGE_NAME }}";#g' config_public_alpine.js
+
       # This step updates the default config_github_terminal.js file by performing the following actions:
       #   1. Replaces all occurrences of IMAGE_URL with the URL to the image.
       #   2. Replace CMD with the Dockerfile entry command.
