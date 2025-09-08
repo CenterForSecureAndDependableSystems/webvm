@@ -1,3 +1,3 @@
 #!/bin/bash
 echo "Tutorial loading into browser, please be patient..."
-turtorial.py
+tutorial.py
