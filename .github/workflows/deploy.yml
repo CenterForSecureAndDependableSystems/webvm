@@ -161,6 +161,8 @@ jobs:
       - name: Export and unpack container filesystem contents into mounted ext2 image.
         run: | 
           sudo docker cp -a ${CONTAINER_ID}:/ /mnt/
+          uid=$(awk -F: '$1=="user"{print $3":"$4}' /mnt/etc/passwd)
+          sudo chown -R "$uid" /mnt/home/user	  
           sudo umount /mnt/
       # Result is an ext2 image for webvm.
 
